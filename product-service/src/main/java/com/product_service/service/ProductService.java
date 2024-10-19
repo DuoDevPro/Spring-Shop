@@ -1,6 +1,7 @@
 package com.product_service.service;
 
 import com.product_service.dtos.ProductDto;
+import com.product_service.dtos.ProductsConfirmed;
 import com.product_service.dtos.request.BuyProductRequest;
 import com.product_service.dtos.request.ProductRequest;
 import com.product_service.dtos.response.BuyProductResponse;
@@ -33,4 +34,6 @@ public interface ProductService {
     List<BuyProductResponse> buyProducts(List<BuyProductRequest> request);
 
     List<Product> findAllByIdInOrderById(List<Long> ids);
+
+    List<ProductsConfirmed> getConfirmedProducts(List<Product> products);
 }

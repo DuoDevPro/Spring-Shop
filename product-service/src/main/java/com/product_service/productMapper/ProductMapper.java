@@ -1,11 +1,14 @@
 package com.product_service.productMapper;
 
 import com.product_service.dtos.ProductDto;
+import com.product_service.dtos.ProductsConfirmed;
 import com.product_service.dtos.request.ProductRequest;
 import com.product_service.dtos.response.BuyProductResponse;
 import com.product_service.dtos.response.ProductResponse;
 import com.product_service.entity.Product;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class ProductMapper {
@@ -64,6 +67,16 @@ public class ProductMapper {
                 .availableQuantity(quantity)
                 .id(product.getId())
                 .productBrand(product.getProductBrand())
+                .build();
+    }
+
+    public ProductsConfirmed toProductsConfirmed(Product product) {
+        return ProductsConfirmed.builder()
+                .productId(product.getId())
+                .price(BigDecimal.valueOf(product.getProductPrice()))
+                .description(product.getProductDescription())
+                .name(product.getProductName())
+                .quantity(product.getAvailableQuantity())
                 .build();
     }
 

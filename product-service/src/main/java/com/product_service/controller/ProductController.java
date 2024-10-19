@@ -1,14 +1,14 @@
 package com.product_service.controller;
 
 import com.product_service.dtos.ProductDto;
+import com.product_service.dtos.ProductsConfirmed;
 import com.product_service.dtos.apiResponse.ApiResponse;
 import com.product_service.dtos.apiResponse.ApiResponseToCart;
-import com.product_service.dtos.request.BuyProductRequest;
 import com.product_service.dtos.request.ProductRequest;
-import com.product_service.dtos.response.BuyProductResponse;
 import com.product_service.dtos.response.ResponseToCart;
 import com.product_service.entity.Product;
 import com.product_service.exceptions.ResourceNotFoundException;
+import com.product_service.productMapper.ProductMapper;
 import com.product_service.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +25,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
 
     @PostMapping("/add")
@@ -196,4 +197,15 @@ public class ProductController {
 //    ) {
 //        return ResponseEntity.ok(productService.buyProducts(request));
 //    }
+
+    @GetMapping("/all/confirmedProducts")
+    public ResponseEntity<ApiResponse> getAllProductsByProductIdsForConfirm(List<Long> productIds) {
+        try {
+            List<Product> products = productService.findAllByIdInOrderById(productIds);
+            List<ProductsConfirmed> confirmedProducts = productService.getConfirmedProducts(products);
+            return ResponseEntity.ok(new ApiResponse("success", confirmedProducts));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
 }

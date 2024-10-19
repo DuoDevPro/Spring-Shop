@@ -7,6 +7,7 @@ import com.product_service.client.InventoryClient;
 import com.product_service.dtos.ImageDto;
 import com.product_service.dtos.Inventory;
 import com.product_service.dtos.ProductDto;
+import com.product_service.dtos.ProductsConfirmed;
 import com.product_service.dtos.request.BuyProductRequest;
 import com.product_service.dtos.request.ProductRequest;
 import com.product_service.dtos.response.BuyProductResponse;
@@ -184,6 +185,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllByIdInOrderById(List<Long> ids) {
         return productRepository.findAllByIdInOrderById(ids);
+    }
+
+    @Override
+    public List<ProductsConfirmed> getConfirmedProducts(List<Product> products) {
+        return products.stream().map(productMapper::toProductsConfirmed).toList();
     }
 
 
